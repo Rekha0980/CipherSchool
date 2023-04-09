@@ -1,6 +1,7 @@
 const express = require("express")
 require("dotenv").config()
 const { connection } = require("./configs/db")
+const { userRoutes } = require("./routes/user.routes")
 
 const app = express()
 app.use(express.json())
@@ -10,6 +11,7 @@ app.get("/", (req, res) => {
 
 })
 
+app.use("/users",userRoutes)
 
 app.listen(process.env.port, async () => {
     try {
