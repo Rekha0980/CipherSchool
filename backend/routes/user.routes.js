@@ -35,11 +35,12 @@ userRoutes.post("/login", async (req, res) => {
     try {
         const user = await UserModel.find({ email })
         const hased_pass = user[0].pass
-        console.log(hased_pass)
+        console.log(user)
         if (user.length > 0) {
             bcrypt.compare(pass, hased_pass, (err, result) => {
                 if (result) {
-                    res.send({ "mess": "login Done"})
+                    const token = jwt.sign({ userID: user[0]._id }, process.env.key);
+                    res.send({ "mess": "login Done", "token": token })
                 }
                 else {
                     res.send("wrong credential")
@@ -58,6 +59,19 @@ userRoutes.post("/login", async (req, res) => {
 
 })
 
+
+userRoutes.patch("/edit/:id",async(req,res)=>{
+    const ID=req.params.id
+    const payload=req.body
+    try{
+    await UserModel.findByIdAndUpdate({_id:ID},payload)
+    res.send(`updated detail with this ${ID}`)
+    }
+    catch(err){
+        console.log(err)
+        res.send({"err":"something wrong"})
+            }
+})
 
 
 module.exports = {
