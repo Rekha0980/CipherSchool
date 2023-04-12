@@ -60,7 +60,7 @@ userRoutes.post("/login", async (req, res) => {
 })
 
 
-userRoutes.patch("/edit/:id",async(req,res)=>{
+userRoutes.patch("/:id",async(req,res)=>{
     const ID=req.params.id
     const payload=req.body
     try{
@@ -72,6 +72,11 @@ userRoutes.patch("/edit/:id",async(req,res)=>{
         res.send({"err":"something wrong"})
             }
 })
+
+
+
+
+
 
 
 module.exports = {
